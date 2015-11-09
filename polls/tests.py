@@ -59,10 +59,10 @@ class QuestionViewTests(TestCase):
 		"""
 		Questions with a pub_date in the past should be displayed on the index page
 		"""
-		create_question(question_text="past question.", days=-30)
+		question = create_question(question_text="Past question.", days=-30)
 		response = self.client.get(reverse('polls:index'))
-		print(response.rendered_content)
-		self.assertContains(response, "No polls are available", status_code=200)
-		self.assertQuerysetEqual(response.context['latest_question_list'], [])
+		self.assertQuerysetEqual(
+      response.context['latest_question_list'],
+      ['<Question: Past question.>']
+    )
 
-	# def test_index_view_with_future_question_and_past_question(self):
